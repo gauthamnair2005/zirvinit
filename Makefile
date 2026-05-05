@@ -25,14 +25,15 @@ LDFLAGS := \
     -z max-page-size=0x1000
 
 # MOSIX init must be statically linked against zirvlibc
-# We assume zirvlibc objects are available in ../build/libs/zirvlibc/src/
 LIBC_OBJS := \
     ../build/libs/zirvlibc/src/string.o \
-    ../build/libs/zirvlibc/src/stdio.o \
+    ../libs/zirvlibc/src/stdio_user.o \
+    ../libs/zirvlibc/src/unistd_user.o \
+    ../libs/zirvlibc/src/syscall_user.o \
     ../build/libs/zirvlibc/src/ctype.o
 
-SRCS := src/main.c
-OBJS := $(SRCS:.c=.o)
+SRCS := src/main.c src/crt0.asm
+OBJS := src/main.o src/crt0.o
 
 TARGET := zirvinit.elf
 
@@ -45,6 +46,9 @@ $(TARGET): $(OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+%.o: %.asm
+	nasm -f elf64 -o $@ $<
 
 clean:
 	rm -f $(TARGET) $(OBJS)
