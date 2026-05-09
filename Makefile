@@ -27,7 +27,8 @@ LIBC_SRCS := \
     ../libs/zirvlibc/src/ctype.c \
     ../libs/zirvlibc/src/stdio.c \
     ../libs/zirvlibc/src/unistd.c \
-    ../libs/zirvlibc/src/syscall.c
+    ../libs/zirvlibc/src/syscall.c \
+    ../libs/zirvlibc/src/datetime.c
 
 # Use a separate build dir to avoid conflicts with kernel libc objects
 LIBC_BUILD := ../build/zirvinit-libc
